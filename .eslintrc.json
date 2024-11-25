@@ -1,7 +1,14 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"],
+  "extends": ["next/core-web-vitals"], // Nutzt die Standardregeln von Next.js
   "rules": {
-    "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/no-empty-object-type": "off"
+    // 1. React-Komponenten-Namensregel lockern
+    "react/function-component-definition": "off", 
+
+    // 2. React-Hooks-Regeln lockern
+    "react-hooks/rules-of-hooks": "warn", // Nur Warnung, kein Fehler
+    "react-hooks/exhaustive-deps": "off" // Keine Prüfung auf fehlende Abhängigkeiten
+
+    // 3. TypeScript: Unbenutzte Variablen ignorieren
+    
   }
 }

@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  next:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+
+    environment:
+      - DATABASE_URL=mysql://patrick:password@mysql:3306/home
+
+  mysql:
+    image: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: patrick
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: home
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
