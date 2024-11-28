@@ -1,5 +1,5 @@
 # 1. Stufe: Build-Stufe
-FROM node:18 AS builder
+FROM node:20 AS builder
 
 # Setzt das Arbeitsverzeichnis
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # 2. Stufe: Produktions-Image
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Setzt das Arbeitsverzeichnis im Produktions-Container
 WORKDIR /app
