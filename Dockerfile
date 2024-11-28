@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installiert die Abhängigkeiten
-RUN npm install
+RUN npm install@latest
 
 # Kopiert den Rest des Codes in das Image
 COPY . .
