@@ -1,8 +1,49 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prismaClient } from "../../../../prisma/prismaClient";
+import { NextResponse } from "next/server";
+import { prisma } from "../../../../prisma/prismaClient";
+import { isEmailValid, isPassowrdValid } from "@/utils/validations";
+import bcrypt from "bcrypt";
 
+// create new usesr
 export async function POST(req: Request) {
   const user = await req.json();
 
-  return NextResponse.json({ user }, { status: 200 });
+  const existUser = await prisma.user.findFirst({
+    where: {
+      email: user.email,
+    },
+  });
+
+  if (!isEmailValid(user.email)) {
+    return NextResponse.json(
+      { message: "Please enter a valid email!" },
+      { status: 500 }
+    );
+  }
+  if (!isPassowrdValid(user.password || !user.password)) {
+    return NextResponse.json(
+      { message: "Please enter a valid password!" },
+      { status: 500 }
+    );
+  }
+
+  if (!existUser) {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+
+    const prismaUser = await prisma.user.create({
+      data: {
+        name: user.name,
+        email: user.email,
+        password: hashedPassword,
+      },
+    });
+    return NextResponse.json(prismaUser, { status: 200 });
+  } else {
+    return NextResponse.json(
+      { message: "User already exists" },
+      { status: 500 }
+    );
+  }
 }
+
+export async function GET() {}
