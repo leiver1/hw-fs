@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../prisma/prismaClient";
 import { isEmailValid, isPassowrdValid } from "@/utils/validations";
+import usePasswordValidation from "@/hooks/usePasswordValidation";
 import bcrypt from "bcrypt";
 
 // create new usesr
@@ -19,7 +20,7 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-  if (!isPassowrdValid(user.password || !user.password)) {
+  if (!user.password || !isPassowrdValid(user.password)) {
     return NextResponse.json(
       { message: "Please enter a valid password!" },
       { status: 500 }
@@ -32,7 +33,8 @@ export async function POST(req: Request) {
 
     const prismaUser = await prisma.user.create({
       data: {
-        name: user.name,
+        firstname: user.firstname,
+        lastname: user.lastname,
         email: user.email,
         password: hashedPassword,
       },

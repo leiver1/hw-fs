@@ -1,18 +1,19 @@
 import { jwtVerify } from "jose";
+import { NextResponse } from "next/server";
 
-export const validateToken = async (request) => {
+export const authMiddleware = async (request) => {
   const secret = new TextEncoder().encode(process.env.JWT_SECRET); // TextEncoder für den Secret-String
   const token = request.cookies.get("token")?.value;
 
   if (!token) {
-    return { isValid: false, redirectUrl: "/login" };
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   try {
     const { payload } = await jwtVerify(token, secret);
 
-    return { isValid: true };
+    return NextResponse.next();
   } catch (error) {
-    return { isValid: false, redirectUrl: "/login" };
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 };

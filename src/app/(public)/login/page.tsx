@@ -21,6 +21,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import img from "../../../../public/undraw_my_password_re_ydq7.svg";
 import { Icon } from "@iconify/react";
+import useTogglePw from "@/hooks/useTogglePw";
 
 interface pageProps {}
 
@@ -31,13 +32,9 @@ interface Credentials {
 const page: React.FC<pageProps> = () => {
   const [credentials, setCredentials] = useState<Credentials>();
   const [response, setResponse] = useState<string>();
-  const [showPw, setShowPw] = useState<boolean>(false);
+  const [showPw, togglePw] = useTogglePw();
   const router = useRouter();
   const theme = useTheme();
-
-  const toggleShowPw = () => {
-    setShowPw(!showPw);
-  };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -127,7 +124,7 @@ const page: React.FC<pageProps> = () => {
                   input: {
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton onClick={toggleShowPw}>
+                        <IconButton onClick={togglePw}>
                           <Icon
                             icon={
                               showPw ? "mdi:eye-outline" : "mdi:eye-off-outline"

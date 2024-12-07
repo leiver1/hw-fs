@@ -1,15 +1,20 @@
-import { validateToken } from "@/middleware/authMiddleware";
-import { NextResponse } from "next/server";
+import { authMiddleware } from "@/middleware/authMiddleware";
+
+import { preventRoutesWithAuth } from "./middleware/preventRoutesWithAuth";
+
+const protectedRoutes: string[] = ["/dashboard", "/profile"];
+const preventRoutesWhileAuthorized: string[] = ["/login"];
 
 export async function middleware(request) {
-  const { isValid, redirectUrl } = await validateToken(request);
-
-  if (!isValid) {
-    return NextResponse.redirect(new URL(redirectUrl, request.url));
+  const url = request.nextUrl.pathname;
+  if (protectedRoutes.some((route) => url.startsWith(route))) {
+    return authMiddleware(request);
   }
 
-  return NextResponse.next();
+  if (preventRoutesWhileAuthorized.some((route) => url.startsWith(route))) {
+    return preventRoutesWithAuth(request);
+  }
 }
 export const config = {
-  matcher: ["/dashboard", "/profile", "/test"],
+  matcher: [...protectedRoutes.map((route) => `${route}/:path*`)],
 };

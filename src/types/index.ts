@@ -15,7 +15,8 @@ export interface Profile {
 
 export interface User {
   id: number; // Primärschlüssel, automatisch hochgezählt
-  name?: string | null; // Optionaler Name des Users, max. Länge 255
+  firstname: string;
+  lastname: string;
   password: string;
   email: string; // E-Mail-Adresse, muss einzigartig sein
   Post: Post[]; // Liste von Posts, die mit dem User verknüpft sind
