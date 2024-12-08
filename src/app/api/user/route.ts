@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, userAgent } from "next/server";
 import { prisma } from "../../../../prisma/prismaClient";
 import { isEmailValid, isPassowrdValid } from "@/utils/validations";
 import usePasswordValidation from "@/hooks/usePasswordValidation";
@@ -48,4 +48,16 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {}
+export async function GET() {
+  const authUser = JSON.parse(localStorage.getItem("user"));
+  const user = await prisma.user.findUnique({
+    where: {
+      email: authUser.email,
+    },
+  });
+
+  return NextResponse.json(
+    { message: "The full user", data: user },
+    { status: 200 }
+  );
+}

@@ -1,6 +1,6 @@
 interface pageProps {}
 const page: React.FC<pageProps> = () => {
-  return <div>profile</div>;
+  return <p>*/ content /*</p>;
 };
 
 export default page;

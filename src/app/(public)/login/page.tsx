@@ -47,14 +47,26 @@ const page: React.FC<pageProps> = () => {
         },
         body: JSON.stringify(credentials),
       });
-
       const data = await response.json();
-
-      if (!response.ok) {
-        setResponse(data.message);
+      if (response.ok) {
+        const snackbar = {
+          message: `Welcome back ${data.user.firstname} ${data.user.lastname}`,
+          variant: "success",
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "right",
+          },
+          autoHideDuration: 2000,
+        };
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("snackbar", JSON.stringify(snackbar));
+        router.push("/dashboard");
       }
 
-      router.push("/dashboard");
+      if (!response.ok) {
+        console.log(data.message);
+        setResponse(data.message);
+      }
     } catch (err) {
       console.log(err);
     }

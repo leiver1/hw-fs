@@ -1,6 +1,6 @@
 interface pageProps {}
 const page: React.FC<pageProps> = () => {
-  return <p>dashboard</p>;
+  return <p>campaign</p>;
 };
 
 export default page;

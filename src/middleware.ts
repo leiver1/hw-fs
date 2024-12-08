@@ -2,7 +2,16 @@ import { authMiddleware } from "@/middleware/authMiddleware";
 
 import { preventRoutesWithAuth } from "./middleware/preventRoutesWithAuth";
 
-const protectedRoutes: string[] = ["/dashboard", "/profile"];
+const protectedRoutes: string[] = [
+  "/dashboard",
+  "/posts",
+  "/media",
+  "/calendar",
+  "/accounts",
+  "/analytics",
+  "/campaign",
+  "/profile",
+];
 const preventRoutesWhileAuthorized: string[] = ["/login"];
 
 export async function middleware(request) {

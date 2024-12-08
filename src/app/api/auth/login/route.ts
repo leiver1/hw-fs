@@ -34,6 +34,11 @@ export async function POST(req: Request) {
   const response = NextResponse.json({
     message: "token createt successfully!",
     token: token,
+    user: {
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+    },
     expires: tokenExpires,
   });
 
