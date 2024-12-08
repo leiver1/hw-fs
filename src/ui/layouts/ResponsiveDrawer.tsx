@@ -130,6 +130,7 @@ export default function ResponsiveDrawer({
         flexDirection: "column",
         justifyContent: "space-between",
         height: "100%",
+        overflowX: "hidden",
         // alignItems: "center",
       }}
     >
@@ -144,7 +145,11 @@ export default function ResponsiveDrawer({
           <Typography sx={{ display: drawerWidth === 85 ? "none" : "block" }}>
             Appname
           </Typography>
-          <IconButton onClick={handleDrawerWidth}>
+
+          <IconButton
+            onClick={handleDrawerWidth}
+            sx={{ display: { xs: "none", sm: "block" } }}
+          >
             <Icon
               icon={
                 drawerWidth === 280 ? "mdi:chevron-left" : "mdi:chevron-right"
@@ -157,7 +162,10 @@ export default function ResponsiveDrawer({
           {protectedRoutes.map((item, key) => (
             <ListItem key={key}>
               <ListItemButton
-                onClick={() => router.push(item.path)}
+                onClick={() => {
+                  router.push(item.path);
+                  setMobileOpen(false);
+                }}
                 sx={{ borderRadius: 4 }}
               >
                 <ListItemIcon>
@@ -241,6 +249,7 @@ export default function ResponsiveDrawer({
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
+        {/* Mobile Drawer: */}
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -260,6 +269,7 @@ export default function ResponsiveDrawer({
           {drawer}
         </Drawer>
 
+        {/* Desktop Drawer  */}
         <Drawer
           variant="permanent"
           sx={{

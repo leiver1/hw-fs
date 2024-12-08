@@ -1,6 +1,8 @@
+import { Box } from "@mui/material";
+
 interface pageProps {}
 const page: React.FC<pageProps> = () => {
-  return <Box>calendar</Box>;
+  return <p>calendar</p>;
 };
 
 export default page;

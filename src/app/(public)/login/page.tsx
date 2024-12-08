@@ -18,8 +18,10 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import img from "../../../../public/undraw_my_password_re_ydq7.svg";
+import mobileImage from "../../../../public/undraw_mobile_login_re_9ntv.svg";
+
 import { Icon } from "@iconify/react";
 import useTogglePw from "@/hooks/useTogglePw";
 
@@ -72,6 +74,12 @@ const page: React.FC<pageProps> = () => {
     }
   };
 
+  useEffect(() => {
+    if (credentials?.email === "alert(" || credentials?.password === "alert(") {
+      alert("Hoff nicht!");
+    }
+  }, [credentials?.email, credentials?.password]);
+
   const handleInput = (e, type: string) => {
     setCredentials((prev) => {
       return {
@@ -90,13 +98,36 @@ const page: React.FC<pageProps> = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          // backgroundColor: { xs: colors.indigo[50], sm: "transparent" },
+          width: "100%",
         }}
       >
         <Box
-          sx={{ width: { xs: "95%", sm: "500px", md: "400px", lg: "480px" } }}
+          sx={{
+            width: { xs: "95%", sm: "500px", md: "400px", lg: "480px" },
+            height: { xs: "100%", sm: "50%" },
+            mt: { xs: 3, sm: 0 },
+          }}
         >
-          <form onSubmit={(e) => submit(e)}>
+          <Box
+            sx={{
+              padding: "0px 60px 30px 60px",
+              display: { xs: "block", sm: "none" },
+            }}
+          >
             <Box textAlign="center">
+              <Typography variant="h6">Welcome Back!</Typography>
+              <Typography variant="subtitle1">
+                Please enter your details to join the suite
+              </Typography>
+            </Box>
+            <Image src={mobileImage} alt="mobile" layout="responsive"></Image>
+          </Box>
+          <form onSubmit={(e) => submit(e)}>
+            <Box
+              textAlign="center"
+              sx={{ display: { xs: "none", sm: "block" } }}
+            >
               <Typography variant="h6">Welcome Back!</Typography>
               <Typography variant="subtitle1">
                 Please enter your details to join the suite
@@ -186,7 +217,7 @@ const page: React.FC<pageProps> = () => {
               }}
             >
               <Typography variant="body2" color="text.secondary">
-                Don't have an account?
+                Dont have an account?
               </Typography>
               <Link
                 sx={{ cursor: "pointer" }}
