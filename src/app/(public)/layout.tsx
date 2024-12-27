@@ -1,4 +1,5 @@
 import Snackbar from "@/ui/components/Snackbar";
+import { CssBaseline } from "@mui/material";
 import { ReactNode } from "react";
 
 interface layoutProps {
@@ -7,6 +8,7 @@ interface layoutProps {
 const layout: React.FC<layoutProps> = ({ children }) => {
   return (
     <>
+      <CssBaseline />
       <Snackbar />
       {children}
     </>

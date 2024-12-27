@@ -12,9 +12,30 @@ let lightTheme = createTheme({
     secondary: {
       main: colors.indigo[300],
     },
+    background: {
+      default: "#F7F7F7",
+    },
   },
 
   components: {
+    MuiPaper: {
+      defaultProps: {
+        elevation: 0,
+      },
+      styleOverrides: {
+        root: {
+          padding: "12px",
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          color: "black",
+        },
+      },
+    },
+
     MuiTypography: {
       styleOverrides: {
         subtitle1: {
@@ -29,6 +50,31 @@ let lightTheme = createTheme({
       },
       styleOverrides: {
         root: {},
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "white",
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 4,
+          "&.Mui-selected": {
+            backgroundColor: colors.indigo[500],
+            color: "white",
+            "&:hover": {
+              backgroundColor: colors.indigo[800],
+              color: "white",
+            },
+          },
+          "&:hover": {
+            backgroundColor: colors.indigo[50],
+          },
+        },
       },
     },
   },

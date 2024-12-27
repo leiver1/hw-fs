@@ -7,13 +7,11 @@ import bcrypt from "bcrypt";
 // create new usesr
 export async function POST(req: Request) {
   const user = await req.json();
-
   const existUser = await prisma.user.findFirst({
     where: {
       email: user.email,
     },
   });
-
   if (!isEmailValid(user.email)) {
     return NextResponse.json(
       { message: "Please enter a valid email!" },
@@ -26,11 +24,9 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-
   if (!existUser) {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(user.password, saltRounds);
-
     const prismaUser = await prisma.user.create({
       data: {
         firstname: user.firstname,
@@ -47,7 +43,6 @@ export async function POST(req: Request) {
     );
   }
 }
-
 export async function GET() {
   const authUser = JSON.parse(localStorage.getItem("user"));
   const user = await prisma.user.findUnique({
@@ -55,7 +50,6 @@ export async function GET() {
       email: authUser.email,
     },
   });
-
   return NextResponse.json(
     { message: "The full user", data: user },
     { status: 200 }

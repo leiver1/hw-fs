@@ -5,6 +5,7 @@ import {
   Divider,
   TextField,
   Grid2 as Grid,
+  Paper,
   Button,
   IconButton,
   InputAdornment,
@@ -103,165 +104,172 @@ const page: React.FC<pageProps> = () => {
   }, [isPwValid, isEmailValid, input]);
 
   return (
-    <Grid container>
-      <Grid
-        size={{ xs: 12, md: 6 }}
-        sx={{
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box
-          sx={{ width: { xs: "95%", sm: "500px", md: "400px", lg: "480px" } }}
-        >
-          <form onSubmit={submit}>
-            <Box textAlign="center" sx={{ mb: 2 }}>
-              <Typography variant="h6">Let´s create your account!</Typography>
-              <Typography variant="subtitle1">
-                Join our community and discover what fits for you the best.
-              </Typography>
-            </Box>
-            {errorResponse && (
-              <Box
-                sx={{
-                  mb: 3,
-                  mt: 1,
-                  p: 2,
-                  borderRadius: 2,
-                  backgroundColor: colors.red[50],
-                }}
-              >
-                <Typography variant="body2" color="error.dark">
-                  {errorResponse}
-                </Typography>
-              </Box>
-            )}
-
-            <Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: 2,
-                }}
-              >
-                <TextField
-                  sx={{ my: 2 }}
-                  onChange={(e) => handleInput(e, "firstname")}
-                  label="Name"
-                  fullWidth
-                  required
-                />
-                <TextField
-                  sx={{ my: 2 }}
-                  onChange={(e) => handleInput(e, "lastname")}
-                  label="Lastname"
-                  fullWidth
-                />
-              </Box>
-              <TextField
-                sx={{ mt: 2 }}
-                id="email"
-                label="Email"
-                onChange={(e) => handleInput(e, "email")}
-                placeholder="e.g j.doe@example.com"
-                fullWidth
-              />
-              <Typography
-                variant="subtitle2"
-                color="error.dark"
-                sx={{ mt: 0.4 }}
-              >
-                {emailError}
-              </Typography>
-              <TextField
-                sx={{ mt: 3 }}
-                label="Password"
-                onChange={(e) => handleInput(e, "password")}
-                type={showPw ? "text" : "password"}
-                placeholder="********"
-                fullWidth
-                slotProps={{
-                  input: {
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={togglePw}>
-                          <Icon
-                            icon={
-                              showPw ? "mdi-eye-outline" : "mdi-eye-off-outline"
-                            }
-                          />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
-
-              <Box sx={{ mb: 1 }}>
-                {pwError.length > 0 &&
-                  input.password !== "" &&
-                  pwError.map((err: string, key: number) => (
-                    <Typography
-                      key={key}
-                      variant="subtitle2"
-                      color="error.dark"
-                      sx={{ mt: 0.1 }}
-                    >
-                      {err}
-                    </Typography>
-                  ))}
-              </Box>
-
-              <TextField
-                sx={{ mt: 3 }}
-                label="Confirm password"
-                type={showPw ? "text" : "password"}
-                placeholder="********"
-                onChange={(e) => handleInput(e, "confirmPassword")}
-                fullWidth
-              />
-              <Typography
-                variant="subtitle2"
-                color="error.dark"
-                sx={{ mt: 0.1 }}
-              >
-                {input.confirmPassword !== input.password &&
-                  input.confirmPassword !== "" &&
-                  "Password is not the same"}
-              </Typography>
-            </Box>
-            <Box>
-              <Button
-                type="submit"
-                fullWidth
-                sx={{ py: 1.3, mt: 4 }}
-                disabled={!isFormValid}
-              >
-                Sign up
-              </Button>
-            </Box>
-          </form>
-        </Box>
-      </Grid>
-      <Grid size={{ xs: 12, md: 6 }} sx={{ backgroundColor: colors.grey[100] }}>
-        <Box
+    <Paper>
+      <Grid container>
+        <Grid
+          size={{ xs: 12, md: 6 }}
           sx={{
             height: "100vh",
-            p: 8,
-            width: "100%",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <Image src={bg} alt="image" layout="responsive" />
-        </Box>
+          <Box
+            sx={{ width: { xs: "95%", sm: "500px", md: "400px", lg: "480px" } }}
+          >
+            <form onSubmit={submit}>
+              <Box textAlign="center" sx={{ mb: 2 }}>
+                <Typography variant="h6">Let´s create your account!</Typography>
+                <Typography variant="subtitle1">
+                  Join our community and discover what fits for you the best.
+                </Typography>
+              </Box>
+              {errorResponse && (
+                <Box
+                  sx={{
+                    mb: 3,
+                    mt: 1,
+                    p: 2,
+                    borderRadius: 2,
+                    backgroundColor: colors.red[50],
+                  }}
+                >
+                  <Typography variant="body2" color="error.dark">
+                    {errorResponse}
+                  </Typography>
+                </Box>
+              )}
+
+              <Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 2,
+                  }}
+                >
+                  <TextField
+                    sx={{ my: 2 }}
+                    onChange={(e) => handleInput(e, "firstname")}
+                    label="Name"
+                    fullWidth
+                    required
+                  />
+                  <TextField
+                    sx={{ my: 2 }}
+                    onChange={(e) => handleInput(e, "lastname")}
+                    label="Lastname"
+                    fullWidth
+                  />
+                </Box>
+                <TextField
+                  sx={{ mt: 2 }}
+                  id="email"
+                  label="Email"
+                  onChange={(e) => handleInput(e, "email")}
+                  placeholder="e.g j.doe@example.com"
+                  fullWidth
+                />
+                <Typography
+                  variant="subtitle2"
+                  color="error.dark"
+                  sx={{ mt: 0.4 }}
+                >
+                  {emailError}
+                </Typography>
+                <TextField
+                  sx={{ mt: 3 }}
+                  label="Password"
+                  onChange={(e) => handleInput(e, "password")}
+                  type={showPw ? "text" : "password"}
+                  placeholder="********"
+                  fullWidth
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={togglePw}>
+                            <Icon
+                              icon={
+                                showPw
+                                  ? "mdi-eye-outline"
+                                  : "mdi-eye-off-outline"
+                              }
+                            />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+
+                <Box sx={{ mb: 1 }}>
+                  {pwError.length > 0 &&
+                    input.password !== "" &&
+                    pwError.map((err: string, key: number) => (
+                      <Typography
+                        key={key}
+                        variant="subtitle2"
+                        color="error.dark"
+                        sx={{ mt: 0.1 }}
+                      >
+                        {err}
+                      </Typography>
+                    ))}
+                </Box>
+
+                <TextField
+                  sx={{ mt: 3 }}
+                  label="Confirm password"
+                  type={showPw ? "text" : "password"}
+                  placeholder="********"
+                  onChange={(e) => handleInput(e, "confirmPassword")}
+                  fullWidth
+                />
+                <Typography
+                  variant="subtitle2"
+                  color="error.dark"
+                  sx={{ mt: 0.1 }}
+                >
+                  {input.confirmPassword !== input.password &&
+                    input.confirmPassword !== "" &&
+                    "Password is not the same"}
+                </Typography>
+              </Box>
+              <Box>
+                <Button
+                  type="submit"
+                  fullWidth
+                  sx={{ py: 1.3, mt: 4 }}
+                  disabled={!isFormValid}
+                >
+                  Sign up
+                </Button>
+              </Box>
+            </form>
+          </Box>
+        </Grid>
+        <Grid
+          size={{ xs: 12, md: 6 }}
+          sx={{ backgroundColor: colors.grey[100] }}
+        >
+          <Box
+            sx={{
+              height: "100vh",
+              p: 8,
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Image src={bg} alt="image" layout="responsive" />
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
+    </Paper>
   );
 };
 

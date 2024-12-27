@@ -13,17 +13,16 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-
+import Paper from "@mui/material/Paper";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter } from "next/navigation";
-import { Avatar, ListItemAvatar } from "@mui/material";
+import { Avatar, ListItemAvatar, colors } from "@mui/material";
 import { useEffect } from "react";
-
-// const drawerWidth = 85;
-// // const drawerWidth = 280;
-
+import MobileAppBar from "../components/MobileAppBar";
+import DesktopAppBar from "../components/DesktopAppbar";
+import { usePathname } from "next/navigation";
 export default function ResponsiveDrawer({
   children,
 }: {
@@ -31,9 +30,12 @@ export default function ResponsiveDrawer({
 }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const [currentPath, setCurrentPath] = React.useState<string>();
   const [drawerWidth, setDrawerWidth] = React.useState<280 | 85>(280);
-  const router = useRouter();
   const user = JSON.parse(localStorage.getItem("user"));
+  const router = useRouter();
+  const pathname = usePathname();
+
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
@@ -57,8 +59,8 @@ export default function ResponsiveDrawer({
   };
 
   useEffect(() => {
-    console.log(user);
-  }, [user]);
+    setCurrentPath(pathname);
+  }, [pathname]);
 
   const logout = async () => {
     try {
@@ -131,15 +133,19 @@ export default function ResponsiveDrawer({
         justifyContent: "space-between",
         height: "100%",
         overflowX: "hidden",
+
         // alignItems: "center",
       }}
     >
       <Box>
-        <Toolbar
+        {/* <Toolbar
           sx={{
             display: "flex",
+            height: 14,
             alignItems: "center",
             justifyContent: "space-between",
+            "@media (min-width: 0px)": { paddingRight: 2, paddingLeft: 1 },
+            py: 0,
           }}
         >
           <Typography sx={{ display: drawerWidth === 85 ? "none" : "block" }}>
@@ -148,7 +154,9 @@ export default function ResponsiveDrawer({
 
           <IconButton
             onClick={handleDrawerWidth}
-            sx={{ display: { xs: "none", sm: "block" } }}
+            sx={{
+              display: { xs: "none", sm: "block" },
+            }}
           >
             <Icon
               icon={
@@ -156,19 +164,50 @@ export default function ResponsiveDrawer({
               }
             />
           </IconButton>
-        </Toolbar>
-        <Divider />
+        </Toolbar> */}
+
+        <List sx={{ p: 0 }}>
+          <ListItem sx={{ p: 0.5 }}>
+            <ListItemText
+              sx={{ display: drawerWidth === 85 ? "none" : "block" }}
+            >
+              Appname
+            </ListItemText>
+            <ListItemIcon>
+              <IconButton
+                onClick={handleDrawerWidth}
+                sx={{
+                  display: { xs: "none", sm: "block" },
+                }}
+              >
+                <Icon
+                  icon={
+                    drawerWidth === 280
+                      ? "mdi:chevron-left"
+                      : "mdi:chevron-right"
+                  }
+                />
+              </IconButton>
+            </ListItemIcon>
+          </ListItem>
+        </List>
+
+        <Divider sx={{ mb: 0.5 }} />
         <List>
           {protectedRoutes.map((item, key) => (
-            <ListItem key={key}>
+            <ListItem key={key} sx={{ px: 0 }}>
               <ListItemButton
                 onClick={() => {
                   router.push(item.path);
                   setMobileOpen(false);
                 }}
-                sx={{ borderRadius: 4 }}
+                selected={currentPath === item.path}
               >
-                <ListItemIcon>
+                <ListItemIcon
+                  sx={{
+                    color: currentPath === item.path ? "white" : "inherit",
+                  }}
+                >
                   <Icon icon={item.icon} fontSize={22} />
                 </ListItemIcon>
                 <ListItemText>{item.name}</ListItemText>
@@ -182,7 +221,7 @@ export default function ResponsiveDrawer({
         <Divider></Divider>
         <List>
           {user && (
-            <ListItem>
+            <ListItem sx={{ px: 0 }}>
               <Box sx={{ ml: 1 }}>
                 <ListItemAvatar>
                   <Avatar src="https://avatars.githubusercontent.com/u/9652" />
@@ -203,7 +242,7 @@ export default function ResponsiveDrawer({
               </Box>
             </ListItem>
           )}
-          <ListItem>
+          <ListItem sx={{ px: 0 }}>
             <ListItemButton onClick={logout}>
               <ListItemIcon>
                 <Icon icon="mdi:logout" fontSize={22} />
@@ -219,31 +258,13 @@ export default function ResponsiveDrawer({
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar
-        color={"primary"}
-        position="fixed"
-        sx={{
-          boxShadow: 0,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-          transition: "width 0.2s ease",
-        }}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <Icon icon="mdi:hamburger-menu" />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Responsive drawer
-          </Typography>
-        </Toolbar>
-      </AppBar>
+
+      <MobileAppBar
+        drawerWidth={drawerWidth}
+        handleDrawerToggle={handleDrawerToggle}
+      />
+      <DesktopAppBar drawerWidth={drawerWidth} />
+
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -256,7 +277,7 @@ export default function ResponsiveDrawer({
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
@@ -272,10 +293,12 @@ export default function ResponsiveDrawer({
         {/* Desktop Drawer  */}
         <Drawer
           variant="permanent"
+          elevation={0}
           sx={{
             display: { xs: "none", sm: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
+              border: "none",
               width: drawerWidth,
               transition: "width 0.2s ease",
             },
@@ -286,7 +309,7 @@ export default function ResponsiveDrawer({
         </Drawer>
       </Box>
       <Box
-        component="main"
+        // component="main"
         sx={{
           flexGrow: 1,
           p: 3,
