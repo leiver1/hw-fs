@@ -10,9 +10,11 @@ import {
   IconButton,
   InputAdornment,
   colors,
+  Link,
 } from "@mui/material";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
+// import bg from "../../../../public/undraw_my_password_re_ydq7.svg";
 import bg from "../../../../public/undraw_sign_up_n6im.svg";
 import useTogglePw from "@/hooks/useTogglePw";
 import { useEffect, useState } from "react";
@@ -45,6 +47,7 @@ const page: React.FC<pageProps> = () => {
   const [isEmailValid, emailError] = useEmailValidation(input.email);
   const [pwError] = usePasswordValidation(input.password);
   const isPwValid = pwError.length === 0;
+  const [currentThemeMode, setCurrentThemeMode] = useState<string>();
 
   const handleInput = (e, key: string) => {
     setInput((prev) => {
@@ -54,6 +57,12 @@ const page: React.FC<pageProps> = () => {
       };
     });
   };
+
+  useEffect(() => {
+    if (localStorage) {
+      setCurrentThemeMode(localStorage.getItem("themeMode"));
+    }
+  }, []);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -104,7 +113,7 @@ const page: React.FC<pageProps> = () => {
   }, [isPwValid, isEmailValid, input]);
 
   return (
-    <Paper>
+    <Paper sx={{ p: 0 }}>
       <Grid container>
         <Grid
           size={{ xs: 12, md: 6 }}
@@ -119,8 +128,8 @@ const page: React.FC<pageProps> = () => {
             sx={{ width: { xs: "95%", sm: "500px", md: "400px", lg: "480px" } }}
           >
             <form onSubmit={submit}>
-              <Box textAlign="center" sx={{ mb: 2 }}>
-                <Typography variant="h6">Let´s create your account!</Typography>
+              <Box sx={{ mb: 5 }}>
+                <Typography variant="h4">Sign up</Typography>
                 <Typography variant="subtitle1">
                   Join our community and discover what fits for you the best.
                 </Typography>
@@ -243,23 +252,36 @@ const page: React.FC<pageProps> = () => {
                   type="submit"
                   fullWidth
                   sx={{ py: 1.3, mt: 4 }}
-                  disabled={!isFormValid}
+                  // disabled={!isFormValid}
                 >
                   Sign up
                 </Button>
               </Box>
             </form>
+            <Box sx={{ mt: 2, display: "flex", alignItems: "center", gap: 1 }}>
+              <Typography variant="body2" color="text.secondary">
+                Already have an account?
+              </Typography>
+              <Link underline="none" href="http://localhost:3000/login">
+                <Typography variant="body2">Sign in</Typography>
+              </Link>
+            </Box>
           </Box>
         </Grid>
         <Grid
-          size={{ xs: 12, md: 6 }}
-          sx={{ backgroundColor: colors.grey[100] }}
+          size={{ sm: 12, md: 6 }}
+          sx={{
+            height: "100vh",
+            display: { xs: "none", md: "block" },
+          }}
         >
           <Box
             sx={{
-              height: "100vh",
-              p: 8,
               width: "100%",
+              backgroundColor:
+                currentThemeMode === "light" ? colors.indigo[200] : "#2c214a",
+              px: 8,
+              height: "100vh",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",

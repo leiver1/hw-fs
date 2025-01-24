@@ -43,15 +43,15 @@ export async function POST(req: Request) {
     );
   }
 }
-export async function GET() {
-  const authUser = JSON.parse(localStorage.getItem("user"));
-  const user = await prisma.user.findUnique({
-    where: {
-      email: authUser.email,
-    },
-  });
-  return NextResponse.json(
-    { message: "The full user", data: user },
-    { status: 200 }
-  );
-}
+// export async function GET() {
+//   const authUser = JSON.parse(localStorage.getItem("user"));
+//   const user = await prisma.user.findUnique({
+//     where: {
+//       email: authUser.email,
+//     },
+//   });
+//   return NextResponse.json(
+//     { message: "The full user", data: user },
+//     { status: 200 }
+//   );
+// }

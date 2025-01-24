@@ -7,7 +7,7 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import LightDarkBtn from "./LightDarkBtn";
+import LightDarkBtn from "../components/LightDarkBtn";
 interface DesktopAppBarProps {
   drawerWidth: 85 | 280;
   handleDrawerToggle?: () => void;

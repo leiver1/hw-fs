@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Box,
   Button,
@@ -6,29 +8,19 @@ import {
   CardContent,
   CardHeader,
   Link,
+  TextField,
   Typography,
 } from "@mui/material";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import Calendar from "@/ui/components/Calendar";
 
 interface pageProps {}
 const page: React.FC<pageProps> = () => {
   return (
     <>
-      <Card>
-        <CardHeader
-          title="Hello this is a title"
-          subheader="subtitle"
-        ></CardHeader>
-        <CardContent>
-          <Link>
-            <Typography>Kann ich das gut lesen?</Typography>
-          </Link>
-          <Typography>Kann ich das gut lesen?</Typography>
-        </CardContent>
-        <CardActions>
-          <Button startIcon={<Icon icon="mdi:login" />}>Click Me</Button>
-        </CardActions>
-      </Card>
+      <Box sx={{ p: 1 }}>
+        <Calendar />
+      </Box>
     </>
   );
 };

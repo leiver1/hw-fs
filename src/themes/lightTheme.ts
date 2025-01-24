@@ -15,6 +15,10 @@ let lightTheme = createTheme({
     background: {
       default: "#F7F7F7",
     },
+    text: {
+      // primary: "#00000", // Haupttext in weiß
+      secondary: "#6C757D", // Sekundärtext in Grau
+    },
   },
 
   components: {
@@ -40,6 +44,9 @@ let lightTheme = createTheme({
       styleOverrides: {
         subtitle1: {
           color: colors.grey[500],
+        },
+        h4: {
+          color: colors.indigo[500],
         },
       },
     },

@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 interface LightDarkBtnProps {}
 const LightDarkBtn: React.FC<LightDarkBtnProps> = () => {
   const themeMode = useSelector((state: RootState) => state.setting.theme.mode);
-  console.log("the theme is...., ", themeMode);
   const dispatch = useDispatch();
 
   const handleThemeFnc = () => {

@@ -1,3 +1,4 @@
+"use client";
 import { ReactNode, useEffect } from "react";
 import ResponsiveDrawer from "@/ui/layouts/ResponsiveDrawer";
 import Snackbar from "@/ui/components/Snackbar";

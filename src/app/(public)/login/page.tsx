@@ -36,8 +36,15 @@ const page: React.FC<pageProps> = () => {
   const [credentials, setCredentials] = useState<Credentials>();
   const [response, setResponse] = useState<string>();
   const [showPw, togglePw] = useTogglePw();
+  const [currentThemeMode, setCurrentThemeMode] = useState<string>();
   const router = useRouter();
   const theme = useTheme();
+
+  useEffect(() => {
+    if (localStorage) {
+      setCurrentThemeMode(localStorage.getItem("themeMode"));
+    }
+  }, []);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -90,8 +97,24 @@ const page: React.FC<pageProps> = () => {
     });
   };
 
+  const responseUI = (
+    <Box
+      sx={{
+        mb: 3,
+        mt: 1,
+        p: 2,
+        borderRadius: 2,
+        backgroundColor: colors.red[50],
+      }}
+    >
+      <Typography variant="body2" color="error.dark" textAlign={"center"}>
+        {response}
+      </Typography>
+    </Box>
+  );
+
   return (
-    <Paper>
+    <Paper sx={{ p: 0, overflow: "hidden" }}>
       <Grid container justifyContent={"space-evenly"}>
         <Grid
           size={{ sm: 12, md: 6 }}
@@ -112,44 +135,35 @@ const page: React.FC<pageProps> = () => {
               mt: { xs: 3, sm: 0 },
             }}
           >
-            <Box
-              sx={{
-                padding: "0px 60px 30px 60px",
-                display: { xs: "block", sm: "none" },
-              }}
-            >
-              <Box textAlign="center" sx={{ mb: 9, mt: 3 }}>
-                <Typography variant="h6">Welcome Back!</Typography>
-                <Typography variant="subtitle1">
-                  Please enter your details to join the suite
-                </Typography>
-              </Box>
-              <Image src={mobileImage} alt="mobile" layout="responsive"></Image>
-            </Box>
             <form onSubmit={(e) => submit(e)}>
+              <Box
+                sx={{
+                  padding: "0px 60px 0px 60px",
+                  display: { xs: "block", sm: "none" },
+                }}
+              >
+                <Box textAlign="center" sx={{ mb: 9, mt: 3 }}>
+                  <Typography variant="h6">Welcome Back!</Typography>
+                  <Typography variant="subtitle1">
+                    Please enter your details to join the suite
+                  </Typography>
+                </Box>
+                <Image
+                  src={mobileImage}
+                  alt="mobile"
+                  layout="responsive"
+                ></Image>
+                {response && responseUI}
+              </Box>
               <Box
                 textAlign="center"
                 sx={{ display: { xs: "none", sm: "block" } }}
               >
-                <Typography variant="h6">Welcome Back!</Typography>
+                <Typography variant="h4">Welcome Back!</Typography>
                 <Typography variant="subtitle1">
                   Please enter your details to join the suite
                 </Typography>
-                {response && (
-                  <Box
-                    sx={{
-                      mb: 3,
-                      mt: 1,
-                      p: 2,
-                      borderRadius: 2,
-                      backgroundColor: colors.red[50],
-                    }}
-                  >
-                    <Typography variant="body2" color="error.dark">
-                      {response}
-                    </Typography>
-                  </Box>
-                )}
+                {response && responseUI}
               </Box>
               <Box>
                 <TextField
@@ -243,7 +257,8 @@ const page: React.FC<pageProps> = () => {
           <Box
             sx={{
               width: "100%",
-              backgroundColor: colors.indigo[200],
+              backgroundColor:
+                currentThemeMode === "light" ? colors.indigo[200] : "#2c214a",
               px: 8,
               height: "100vh",
               display: "flex",

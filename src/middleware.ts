@@ -1,8 +1,6 @@
-import { authMiddleware } from "@/middleware/authMiddleware";
+import { NextResponse } from "next/server";
 
-import { preventRoutesWithAuth } from "./middleware/preventRoutesWithAuth";
-
-const protectedRoutes: string[] = [
+const protectedRoutes = [
   "/dashboard",
   "/posts",
   "/media",
@@ -12,18 +10,26 @@ const protectedRoutes: string[] = [
   "/campaign",
   "/profile",
 ];
-const preventRoutesWhileAuthorized: string[] = ["/login"];
 
-export async function middleware(request) {
-  const url = request.nextUrl.pathname;
-  if (protectedRoutes.some((route) => url.startsWith(route))) {
-    return authMiddleware(request);
+export function middleware(req) {
+  // Deine Middleware-Logik
+  const token = req.cookies.get("token");
+  if (!token) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
-
-  if (preventRoutesWhileAuthorized.some((route) => url.startsWith(route))) {
-    return preventRoutesWithAuth(request);
-  }
+  return NextResponse.next();
 }
+
+// Statische Definition der matcher
 export const config = {
-  matcher: [...protectedRoutes.map((route) => `${route}/:path*`)],
+  matcher: [
+    "/dashboard/:path*",
+    "/posts/:path*",
+    "/media/:path*",
+    "/calendar/:path*",
+    "/accounts/:path*",
+    "/analytics/:path*",
+    "/campaign/:path*",
+    "/profile/:path*",
+  ],
 };

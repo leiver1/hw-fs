@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const appSettings = {
   theme: {
-    mode: localStorage.getItem("themeMode"), // Optionen: 'light', 'dark', 'system'
+    mode: "light",
+    // mode: localStorage.getItem("themeMode"), // Optionen: 'light', 'dark', 'system'
   },
   language: {
     current: "de", // Aktuelle Sprache (z. B. 'de' für Deutsch, 'en' für Englisch)
@@ -46,7 +47,7 @@ const settingSlice = createSlice({
   reducers: {
     handleTheme: (state, action) => {
       state.theme.mode = action.payload;
-      localStorage.setItem("themeMode", action.payload);
+      // localStorage.setItem("themeMode", action.payload);
     },
   },
 });

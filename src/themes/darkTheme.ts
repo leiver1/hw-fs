@@ -16,8 +16,8 @@ let darkTheme = createTheme({
       paper: "#1D1D1D",
     },
     text: {
-      primary: "#FFFFFF", // Haupttext in weiß
-      secondary: colors.grey[500], // Sekundärtext in Grau
+      primary: "#FFFFFF",
+      secondary: colors.grey[500],
     },
   },
 
@@ -31,10 +31,10 @@ let darkTheme = createTheme({
     MuiTypography: {
       styleOverrides: {
         subtitle1: {
-          color: colors.grey[100],
+          color: colors.grey[600],
         },
-        subtitle2: {
-          color: colors.green[200], // Für andere Subtitle-Typen
+        h4: {
+          color: colors.grey[400],
         },
       },
     },
@@ -79,6 +79,18 @@ let darkTheme = createTheme({
       styleOverrides: {
         root: {
           color: "white",
+        },
+      },
+    },
+
+    MuiTextField: {
+      defaultProps: {
+        slotProps: {
+          inputLabel: {
+            style: {
+              color: colors.deepPurple[50],
+            },
+          },
         },
       },
     },
